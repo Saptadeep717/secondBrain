@@ -10,6 +10,12 @@ const contentRepo = new ContentRepository();
 
 export const toggleShare = wrapAsync(async (req, res) => {
   const { share } = req.body;
+  if (share === undefined) {
+    throw ApiErrorFactory.createError("BAD_REQUEST", "Missing share parameter");
+  }
+  if (typeof share !== "boolean") {
+    throw ApiErrorFactory.createError("BAD_REQUEST", "Share must be boolean");
+  }
   if (share) {
     const existing = await linkRepo.findByUserId(req.userId!);
     if (existing)

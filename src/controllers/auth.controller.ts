@@ -9,6 +9,12 @@ const userRepo = new UserRepository();
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
 export const signup = wrapAsync(async (req, res) => {
   const { username, password } = req.body;
+  if (!username || !password) {
+    throw ApiErrorFactory.createError(
+      "BAD_REQUEST",
+      "Username and password are required"
+    );
+  }
   const existingUser = await userRepo.findByUsername(username);
   if (existingUser)
     throw ApiErrorFactory.createError("CONFLICT", "Username already exists");
@@ -20,6 +26,12 @@ export const signup = wrapAsync(async (req, res) => {
 
 export const login = wrapAsync(async (req, res) => {
   const { username, password } = req.body;
+  if (!username || !password) {
+    throw ApiErrorFactory.createError(
+      "BAD_REQUEST",
+      "Username and password are required"
+    );
+  }
   const user = await userRepo.findByUsername(username);
   if (!user)
     throw ApiErrorFactory.createError("BAD_REQUEST", "Invalid credentials");
