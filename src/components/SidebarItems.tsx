@@ -3,13 +3,17 @@ import type { ReactElement } from "react";
 interface itemsprop {
   icon: ReactElement;
   title: String;
-  addProps:String;
+  addProps: String;
+  onClick?: () => void;
 }
-export const SidebarItems = ({ icon, title,addProps}: itemsprop) => {
+export const SidebarItems = ({ icon, title, addProps, onClick }: itemsprop) => {
   return (
-    <div className={`${addProps} flex items-center gap-4 text-xl`}>
+    <div
+      className={`${addProps} flex items-center gap-4 text-xl`}
+      onClick={onClick}
+    >
       <span>{icon}</span>
-      <span>{title}</span>
+      <span className="capitalize">{title}</span>
     </div>
   );
 };

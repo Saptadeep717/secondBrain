@@ -7,6 +7,8 @@ import { Documenticon } from "../icons/Documenticon";
 import { Editicon } from "../icons/Editicon";
 import { Button } from "./ui/Button";
 import YoutubeComponent from "./ui/cardComponent/YoutubeComponent";
+import TwitterComponent from "./ui/cardComponent/TwitterComponent";
+
 import TagElement from "./ui/cardComponent/TagElement";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +26,7 @@ interface CardProps {
   OnClickDelete?: () => void;
   _id: number | string;
   tags: [{ name: string; _id: string }];
+  disableDelete?:boolean;
 }
 
 type IconElement = Record<CardProps["type"], ReactElement>;
@@ -32,8 +35,8 @@ const IconsIdentifier: IconElement = {
   youtube: <Youtubeicon size="md" />,
   document: <Documenticon size="md" />,
 };
-const cardClass: string = "p-3 self-center";
-export const Card = ({ title, link, type, _id, tags }: CardProps) => {
+const cardClass: string = "my-1  self-center";
+export const Card = ({ title, link, type, _id, tags ,disableDelete=false }: CardProps) => {
   const { token } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   async function deleteCard() {
@@ -54,14 +57,14 @@ export const Card = ({ title, link, type, _id, tags }: CardProps) => {
       }
     } catch (error) {
       console.error(error);
-      toast.success("Content Deleted");
+      toast.error("Deletion failed");
     } finally {
       dispatch(setLoading(false));
     }
   }
 
   return (
-    <div className="h-90 w-90 relative" key={_id}>
+    <div className="h-90 w-80 lg:w-88 relative" key={_id}>
       <div
         className="p-4 w-full h-full bg-off-white rounded-md 
        border-grey-200 border flex flex-col justify-between
@@ -82,9 +85,9 @@ export const Card = ({ title, link, type, _id, tags }: CardProps) => {
                   <Shareicon size="md" />
                 </a>
               </div>
-              <div className="pr-2 text-grey-600 " onClick={deleteCard}>
+             {!disableDelete && <div className="pr-2 text-grey-600 " onClick={deleteCard}>
                 <Deleteicon size="md" />
-              </div>
+              </div>}
             </div>
           </div>
           {/* content section */}
@@ -93,16 +96,23 @@ export const Card = ({ title, link, type, _id, tags }: CardProps) => {
               <YoutubeComponent cardClass={cardClass} link={link} />
             )}
             {type === "twitter" && (
-              <div className={cardClass}>
-                <blockquote className="twitter-tweet">
-                  <a
-                    href={`${link.replace("x", "twitter")}?ref_src=twsrc%5Etfw`}
-                  ></a>
-                </blockquote>{" "}
-              </div>
+              <TwitterComponent cardClass={cardClass} link={link} />
             )}
             {type === "document" && (
-              <div className={`${cardClass}`}>{text}</div>
+              <div className={`${cardClass}`}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+                ipsam tempora laudantium eligendi, quisquam reiciendis sapiente
+                veniam voluptatem. Sed voluptatibus deserunt consectetur sunt
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+                ipsam tempora laudantium eligendi, quisquam reiciendis sapiente
+                veniam voluptatem. Sed voluptatibus deserunt consectetur sunt
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+                ipsam tempora laudantium eligendi, quisquam reiciendis sapiente
+                veniam voluptatem. Sed voluptatibus deserunt consectetur sunt
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+                ipsam tempora laudantium eligendi, quisquam reiciendis sapiente
+                veniam voluptatem. Sed voluptatibus deserunt consectetur sunt
+              </div>
             )}
           </div>
           {/* tags */}
@@ -134,6 +144,12 @@ const slideup: string = `absolute -bottom-16 left-0 w-full flex justify-center
 >`;
 const text: string = `
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+              ipsam tempora laudantium eligendi, quisquam reiciendis sapiente
+              veniam voluptatem. Sed voluptatibus deserunt consectetur sunt
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+              ipsam tempora laudantium eligendi, quisquam reiciendis sapiente
+              veniam voluptatem. Sed voluptatibus deserunt consectetur sunt
+               Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
               ipsam tempora laudantium eligendi, quisquam reiciendis sapiente
               veniam voluptatem. Sed voluptatibus deserunt consectetur sunt
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Card } from "../components/Card";
 
 type Tag = {
-  name: "twitter" | "youtube" | "document" | any;
+  name: "twitter" | "youtube" | "document" | string;
   _id: string;
 };
 
@@ -21,18 +21,14 @@ const SharedBrain = () => {
   const [contentData, setContentData] = useState<DataType>([]);
   const navigate = useNavigate();
   const { hash } = useParams();
+
   async function getSharedData() {
     try {
-      console.log(hash);
-
       const response = await axios.get(`/api/v1/brain/${hash}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
 
       if (response.data.statusCode === 200) {
-        console.log(response.data);
         setContentData(response.data.data);
         toast.success(response.data.message);
       }
@@ -41,51 +37,55 @@ const SharedBrain = () => {
       toast.error("Broken Link");
     }
   }
+
   useEffect(() => {
     getSharedData();
   }, []);
+
   return (
-    <div className="max-w-screen max-h-screen">
-      {contentData.length > 0 && (
-        <div className="flex flex-col bg-[url('/share_brain1.svg')] bg-center bg-cover bg-fixed">
-          <div className="self-center w-full  ">
+    <div
+      className="min-h-screen w-full overflow-x-hidden 
+                 bg-[url('/share_brain1.svg')] bg-cover bg-center bg-no-repeat flex flex-col"
+    >
+      {/* Fixed header */}
+      <header
+        className="w-full py-4 text-center text-4xl font-semibold
+                   text-gray-900 backdrop-blur-xl bg-white/20 shadow-md fixed top-0 z-50"
+      >
+        Shared Brain
+      </header>
+
+      {/* Main content */}
+      <main
+        className="flex flex-wrap gap-6 justify-center items-start 
+                   pt-28 pb-12 px-4 w-full overflow-x-hidden"
+      >
+        {contentData.length > 0 ? (
+          contentData.map((data, index) => {
+            const { title, link, tags } = data;
+            return (
+              <Card
+                key={index}
+                tags={tags}
+                type={tags[0].name}
+                title={title}
+                link={link}
+                id={index}
+                disableDelete={true}
+              />
+            );
+          })
+        ) : (
+          <div className="flex items-center justify-center h-[80vh] w-full">
             <h1
-              className="backdrop-blur-3xl py-4 text-center text-4xl w-full fixed z-50
-           font-semibold
-          "
+              className="text-6xl font-semibold italic text-red-700 cursor-pointer"
+              onClick={() => navigate("/login")}
             >
-              Shared Brain
+              Broken Link
             </h1>
           </div>
-          <div className="flex flex-wrap py-20 gap-4 items-center justify-center">
-            {contentData.map((data, index) => {
-              const { title, link, tags } = data;
-              // console.log(link,tags[0].name);
-              return (
-                <Card
-                  tags={tags}
-                  type={tags[0].name}
-                  title={title}
-                  link={link}
-                  id={index}
-                />
-              );
-            })}{" "}
-          </div>
-        </div>
-      )}
-      {contentData.length == 0 && (
-        <div className="bg-[url('/share_brain1.svg')] bg-center bg-cover flex items-center justify-center w-screen h-screen">
-          <h1
-            className="text-7xl font-semibold italic text-red-700 cursor-pointer"
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Broken Link
-          </h1>
-        </div>
-      )}
+        )}
+      </main>
     </div>
   );
 };

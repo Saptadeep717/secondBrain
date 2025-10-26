@@ -10,7 +10,7 @@ import {
 import { setLoading } from "../../utils/Redux/Slices/userSlice";
 
 interface ModalType {
-  open: boolean;
+  open: Boolean;
   onClose: () => void;
 }
 

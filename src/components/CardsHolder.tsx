@@ -8,7 +8,7 @@ import { setContentData, setLoading } from "../utils/Redux/Slices/contentSlice";
 const CardsHolder = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.auth);
-  const { refreshContent, contentData } = useSelector(
+  const { refreshContent, contentData, tagFilter } = useSelector(
     (state: RootState) => state.content
   );
   async function getContent() {
@@ -38,11 +38,14 @@ const CardsHolder = () => {
     getContent();
   }, [refreshContent]);
   return (
-    <div className="mt-8 relative flex flex-wrap gap-4 justify-center">
-      {contentData &&
+    <div className="my-8 mx-8 relative flex flex-wrap gap-4 justify-start items-center">
+      {contentData.length > 0 &&
         contentData.map((data) => {
           const { title, link, tags, _id } = data;
           // console.log(link,tags[0].name);
+          if (tagFilter?.length > 0) {
+            if (tagFilter !== tags[0].name) return;
+          }
           return (
             <Card
               tags={tags}
@@ -53,8 +56,9 @@ const CardsHolder = () => {
             />
           );
         })}
+      {contentData.length == 0 && <div className="text-7xl">Add your thoughts</div>}
 
-      <div className="bg-grey-100  w-screen h-12"></div>
+      {/* <div className="bg-grey-100  w-screen h-12"></div> */}
     </div>
   );
 };

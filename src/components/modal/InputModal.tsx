@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import type { RootState } from "../../utils/Redux/Store";
 interface ModalType {
-  open: boolean;
+  open: Boolean;
   onClose: () => void;
 }
 
@@ -33,7 +33,7 @@ const InputModal = ({ open, onClose }: ModalType) => {
   const [customTags, setCustomTags] = useState<string[]>([]);
 
   const { token } = useSelector((state: RootState) => state.auth);
-  const { refreshContent } = useSelector((state: RootState) => state.content);
+
   const dispatch = useDispatch();
 
   const addCustomTags = () => {
@@ -118,7 +118,7 @@ const InputModal = ({ open, onClose }: ModalType) => {
 
       {/* Modal container */}
       <div
-        className="relative bg-off-white rounded-2xl shadow-xl w-[25rem] p-6 z-50 flex flex-col items-start"
+        className="relative bg-off-white rounded-2xl shadow-xl w-80 lg:w-88 p-6 z-50 flex flex-col items-start"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -136,9 +136,9 @@ const InputModal = ({ open, onClose }: ModalType) => {
         </div>
 
         {/* Type selector */}
-        <div className="mt-5 w-full flex flex-col items-start">
+        <div className="mt-5 w-80 lg:w-90 flex flex-col items-start">
           <h1 className="text-gray-700 mb-2 font-medium">Select type</h1>
-          <div className="flex gap-2 mb-3">
+          <div className="flex flex-wrap w-64 lg:w-88 gap-2 mb-3">
             <Button
               text="Youtube"
               variant={type === contentType.Youtube ? "primary" : "secondary"}
@@ -170,10 +170,10 @@ const InputModal = ({ open, onClose }: ModalType) => {
               <Input
                 placeholder="Custom Tags"
                 reference={tagsRef}
-                props=" w-80 pr-10"
+                props="w-64 pr-6 lg:w-76 lg:pr-12"
               />
               <div
-                className="absolute right-12 cursor-pointer bg-none h-10 rounded flex"
+                className="absolute right-9 lg:right-6 cursor-pointer bg-none h-10 rounded flex"
                 onClick={addCustomTags}
               >
                 <Plusicon size="md" props={" w-10 self-center"} />

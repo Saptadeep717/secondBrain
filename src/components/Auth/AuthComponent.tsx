@@ -46,7 +46,7 @@ const AuthComponent = ({
   }, []);
 
   return (
-    <div className="bg-[url(/bg_one.svg)] bg-cover bg-center fixed inset-0 flex items-center justify-center z-50">
+    <div className=" bg-[url(/bg_one.svg)] bg-cover bg-center fixed inset-0 flex items-center justify-center z-50">
       <div
         className="absolute top-16 flex items-center justify-center
        select-none"
@@ -58,7 +58,7 @@ const AuthComponent = ({
       </div>
       <div
         className="flex flex-col items-center gap-4 p-6 border border-slate-200
-      rounded-xl shadow-sm shadow-white w-96 mx-auto bg-off-white"
+      rounded-xl shadow-sm shadow-white w-80 lg:w-90 mx-auto bg-off-white"
       >
         <h2 className="text-2xl font-semibold text-center mb-2 capitalize">
           {title}

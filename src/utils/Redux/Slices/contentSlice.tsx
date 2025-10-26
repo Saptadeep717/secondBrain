@@ -4,12 +4,14 @@ export interface contentType {
   contentData: any[];
   loading: Boolean;
   refreshContent: Boolean;
+  tagFilter: String;
 }
 
 const initialState: contentType = {
   contentData: [],
   loading: false,
   refreshContent: false,
+  tagFilter: "",
 };
 
 const contentSlice = createSlice({
@@ -25,8 +27,11 @@ const contentSlice = createSlice({
     setRefreshContent(state) {
       state.refreshContent = !state.refreshContent;
     },
+    setTagFilter(state, action: PayloadAction<String>) {
+      state.tagFilter = action.payload;
+    },
   },
 });
-export const { setContentData, setLoading, setRefreshContent } =
+export const { setContentData, setLoading, setRefreshContent,setTagFilter } =
   contentSlice.actions;
 export default contentSlice.reducer;
