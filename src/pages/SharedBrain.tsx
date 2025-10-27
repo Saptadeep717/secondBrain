@@ -4,9 +4,9 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Card } from "../components/Card";
 
-type Tag = {
+export type Tag = {
   name: "twitter" | "youtube" | "document" | string;
-  _id: string;
+  _id: string | number;
 };
 
 type DataItem = {
@@ -48,12 +48,14 @@ const SharedBrain = () => {
                  bg-[url('/share_brain1.svg')] bg-cover bg-center bg-no-repeat flex flex-col"
     >
       {/* Fixed header */}
-      <header
-        className="w-full py-4 text-center text-4xl font-semibold
-                   text-gray-900 backdrop-blur-xl bg-white/20 shadow-md fixed top-0 z-50"
-      >
-        Shared Brain
-      </header>
+      {contentData.length > 0 && (
+        <header
+          className="w-full py-4 text-center text-4xl font-semibold
+                   text-gray-100 backdrop-blur-xl bg-white/20 shadow-md fixed top-0 z-50"
+        >
+          Shared Brain
+        </header>
+      )}
 
       {/* Main content */}
       <main
@@ -70,18 +72,18 @@ const SharedBrain = () => {
                 type={tags[0].name}
                 title={title}
                 link={link}
-                id={index}
+                _id={index}
                 disableDelete={true}
               />
             );
           })
         ) : (
-          <div className="flex items-center justify-center h-[80vh] w-full">
+          <div className="flex items-center justify-center h-[60vh] w-full">
             <h1
-              className="text-6xl font-semibold italic text-red-700 cursor-pointer"
+              className="text-6xl text-center font-semibold italic text-red-700 cursor-pointer"
               onClick={() => navigate("/login")}
             >
-              Broken Link
+              No Smoking{" "}
             </h1>
           </div>
         )}

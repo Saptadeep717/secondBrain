@@ -31,7 +31,7 @@ function DashBoard() {
           setAddContent={setAddContent}
         />
 
-        <div>
+        <div className="bg-grey-200 min-h-screen">
           <CardsHolder />
         </div>
       </div>

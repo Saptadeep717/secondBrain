@@ -18,15 +18,17 @@ import {
   setLoading,
   setRefreshContent,
 } from "../utils/Redux/Slices/contentSlice";
+import type { Tag } from "../pages/SharedBrain";
+
 interface CardProps {
   title: string;
   link: string;
-  type: "twitter" | "youtube" | "document";
+  type: "twitter" | "youtube" | "document" | string;
   onClick?: () => void;
   OnClickDelete?: () => void;
   _id: number | string;
-  tags: [{ name: string; _id: string }];
-  disableDelete?:boolean;
+  tags: Tag[];
+  disableDelete?: boolean;
 }
 
 type IconElement = Record<CardProps["type"], ReactElement>;
@@ -36,7 +38,14 @@ const IconsIdentifier: IconElement = {
   document: <Documenticon size="md" />,
 };
 const cardClass: string = "my-1  self-center";
-export const Card = ({ title, link, type, _id, tags ,disableDelete=false }: CardProps) => {
+export const Card = ({
+  title,
+  link,
+  type,
+  _id,
+  tags,
+  disableDelete = false,
+}: CardProps) => {
   const { token } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   async function deleteCard() {
@@ -68,7 +77,7 @@ export const Card = ({ title, link, type, _id, tags ,disableDelete=false }: Card
       <div
         className="p-4 w-full h-full bg-off-white rounded-md 
        border-grey-200 border flex flex-col justify-between
-      group relative"
+      group relative shadow-lg"
       >
         <div className="h-full flex flex-col">
           {/* Header section */}
@@ -85,9 +94,11 @@ export const Card = ({ title, link, type, _id, tags ,disableDelete=false }: Card
                   <Shareicon size="md" />
                 </a>
               </div>
-             {!disableDelete && <div className="pr-2 text-grey-600 " onClick={deleteCard}>
-                <Deleteicon size="md" />
-              </div>}
+              {!disableDelete && (
+                <div className="pr-2 text-grey-600 " onClick={deleteCard}>
+                  <Deleteicon size="md" />
+                </div>
+              )}
             </div>
           </div>
           {/* content section */}

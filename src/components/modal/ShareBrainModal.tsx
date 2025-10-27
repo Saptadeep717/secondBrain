@@ -28,11 +28,23 @@ const ShareBrainModal = ({ open, onClose }: ModalType) => {
 
   async function copyToClipBoard(sharedLink: string) {
     try {
-      await navigator.clipboard.writeText(`${sharedLink}`);
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(sharedLink);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = sharedLink;
+        textArea.style.position = "fixed"; // avoid scrolling to bottom
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
       toast.success("copied to clipboard");
     } catch (error) {
       console.error("Failed to copy!", error);
-      toast.success("failed to copy");
+      toast.error("failed to copy");
     }
   }
   async function generateLink() {
@@ -55,7 +67,10 @@ const ShareBrainModal = ({ open, onClose }: ModalType) => {
         const hash: string = response.data.data?.hash?.toString() || "";
         if (hash.length) {
           toast.success("Link Generated");
-          const sharedLink = `${window.location.href.replace("/dashboard","")}/content/${hash}`;
+          const sharedLink = `${window.location.href.replace(
+            "/dashboard",
+            ""
+          )}/content/${hash}`;
 
           dispatch(setLinkData(sharedLink));
 
@@ -84,7 +99,10 @@ const ShareBrainModal = ({ open, onClose }: ModalType) => {
 
       {/* Modal */}
       <div className={` inset-0 z-50 flex items-center justify-center`}>
-        <div className="bg-off-white rounded-lg border border-slate-200 flex flex-col p-10 items-center shadow-lg">
+        <div
+          className="bg-off-white rounded-lg border border-slate-200 
+        w-80 md:w-100 flex flex-col p-10 items-center shadow-lg"
+        >
           <span className="text-center">
             {share
               ? "Do you want to share your brain"

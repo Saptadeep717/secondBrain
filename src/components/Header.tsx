@@ -7,24 +7,31 @@ import { Hambergericon } from "../icons/Hambergericon";
 interface ModalType {
   setAddContent: React.Dispatch<React.SetStateAction<boolean>>;
   setShareContent: React.Dispatch<React.SetStateAction<boolean>>;
-  setViewSidebar:React.Dispatch<React.SetStateAction<boolean>>;
+  setViewSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Header = ({ setAddContent, setShareContent ,setViewSidebar }: ModalType) => {
+const Header = ({
+  setAddContent,
+  setShareContent,
+  setViewSidebar,
+}: ModalType) => {
   const width = getScreenWidth();
   return (
     <div
       className={`w-full flex flex-reverse p-4  gap-4 
      bg-off-white border-b-2 border-slate-200 
-     ${width <768 ?"justify-between" :"justify-end"}`}
+     ${width < 768 ? "justify-between" : "justify-end"}
+     bg-[url(/header.svg)] bg-cover bg-top`}
     >
       {width < 768 && (
-        <Button
-          text=""
-          variant="secondary"
-          startIcon={<Hambergericon size="lg" />}
-          onClick={()=>setViewSidebar((prev)=>!prev)}
-        />
+        <div className="flex items-center justify-center">
+          <Button
+            text=""
+            variant="secondary"
+            startIcon={<Hambergericon size="lg" />}
+            onClick={() => setViewSidebar((prev) => !prev)}
+          />
+        </div>
       )}
       <div className="flex gap-2">
         <Button

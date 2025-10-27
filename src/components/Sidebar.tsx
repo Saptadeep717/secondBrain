@@ -68,16 +68,17 @@ const Sidebar = ({viewSidebar}:SidebarProps) => {
   return (
     <div
       className={`
-        fixed top-0 left-0 h-screen bg-off-white border-r-2 border-slate-200
+        fixed top-0 left-0 h-screen shadow-md shadow-slate-200
         flex flex-col items-center transition-all duration-300 ease-in-out
         ${viewSidebar ? "translate-x-0" : "-translate-x-70"}
-        lg:translate-x-0 lg:w-72 md:w-60 z-50 
+        lg:translate-x-0 lg:w-72 md:w-60 z-50
+        bg-[url(/bg-sidebar.svg)] bg-cover 
       `}
     >
-      <div className="header w-full p-4 hover:bg-slate-100 transition duration-150 hover:ease-in">
+      <div className="header w-full p-4 text-white hover:bg-off-white hover:text-black transition duration-150 hover:ease-in">
         <span className="flex items-center gap-2 font-semibold text-2xl">
           <span>
-            <Brainicon size="2xl" props={`text-purple-800`} />
+            <Brainicon size="2xl" fill={``} />
           </span>
           <span className="select-none">Second Brain</span>
         </span>
@@ -89,8 +90,8 @@ const Sidebar = ({viewSidebar}:SidebarProps) => {
               <SidebarItems
                 addProps={`${
                   tagFilter == title
-                    ? "bg-purple-500 text-grey-100"
-                    : "hover:bg-purple-100 text-grey-700"
+                    ? "bg-purple-602 text-grey-100"
+                    : "hover:bg-off-white hover:text-slate-800 text-slate-100"
                 } cursor-pointer py-2 px-6 transition duration-150 w-full`}
                 icon={icon}
                 title={title}

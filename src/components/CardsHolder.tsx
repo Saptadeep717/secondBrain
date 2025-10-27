@@ -38,7 +38,7 @@ const CardsHolder = () => {
     getContent();
   }, [refreshContent]);
   return (
-    <div className="my-8 mx-8 relative flex flex-wrap gap-4 justify-start items-center">
+    <div className="py-8 px-8 relative flex flex-wrap gap-4 justify-start items-center">
       {contentData.length > 0 &&
         contentData.map((data) => {
           const { title, link, tags, _id } = data;
@@ -56,7 +56,7 @@ const CardsHolder = () => {
             />
           );
         })}
-      {contentData.length == 0 && <div className="text-7xl">Add your thoughts</div>}
+      {contentData.length == 0 && <div className="text-7xl absolute left-80 top-60">Add your thoughts</div>}
 
       {/* <div className="bg-grey-100  w-screen h-12"></div> */}
     </div>

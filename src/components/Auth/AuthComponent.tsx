@@ -51,7 +51,7 @@ const AuthComponent = ({
         className="absolute top-16 flex items-center justify-center
        select-none"
       >
-        <Brainicon size="4xl" fill={"#ffffff"} />{" "}
+        <Brainicon size="4xl" props={"text-white"} />{" "}
         <span className="text-5xl text-white  ml-1 mb-1 font-semibold">
           2nd Brain
         </span>
