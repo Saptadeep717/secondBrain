@@ -22,9 +22,9 @@ class Database {
     try {
       await mongoose.connect(uri);
       this.isConnected = true;
-      console.log("MongoDB connected successfully.");
+      console.log(`MongoDB connected successfully, ${uri}`);
     } catch (error) {
-      console.error(" MongoDB connection failed:", error);
+      console.error(` MongoDB connection failed, ${uri}:`, error);
       process.exit(1);
     }
   }

@@ -1,6 +1,6 @@
 import { LinkRepository } from "../db/repository/link.repo";
 import { ContentRepository } from "../db/repository/content.repo";
-import  randomId  from "../utils/randomHashGenerator";
+import randomId from "../utils/randomHashGenerator";
 import ApiResponse from "../utils/ApiResponse";
 import { wrapAsync } from "../utils/AsyncHandler";
 import { ApiErrorFactory } from "../utils/ApiError";
@@ -22,7 +22,7 @@ export const toggleShare = wrapAsync(async (req, res) => {
       return res
         .status(200)
         .json(
-          ApiResponse.success("Share link exists", { hash: existing.hash })
+          ApiResponse.success("Share link exists", { hash: existing.hash }),
         );
 
     const hash = randomId(10);
@@ -45,6 +45,8 @@ export const getSharedBrain = wrapAsync(async (req, res) => {
   if (!link)
     throw ApiErrorFactory.createError("NOT_FOUND", "Invalid share link");
 
-  const contents = await contentRepo.getContentsByUser(link.userId.toString());
+  const contents = await contentRepo.getPublicContentsByUser(
+    link.userId.toString(),
+  );
   res.status(200).json(ApiResponse.success("Contents fetched", contents));
 });

@@ -4,23 +4,45 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -b",
-    "start": "node dist/index.js",
-    "dev": "npm run build && npm run start"
+    "start": "node dist/server.js",
+    "dev": "npm run build && npm run start",
+    "hot": "nodemon --watch src --ext ts,js,json --exec ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/cheerio": "^0.22.35",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/ioredis": "^4.28.10",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^7.0.11",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.79.0",
+    "@aws-sdk/client-s3": "^3.1011.0",
+    "@google/genai": "^1.46.0",
+    "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^3.0.2",
+    "bullmq": "^5.71.0",
+    "cheerio": "^1.2.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
     "express": "^5.1.0",
+    "ioredis": "^5.10.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.0",
-    "nanoid": "^5.1.6"
+    "nanoid": "^5.1.7",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^8.0.2",
+    "openai": "^6.32.0"
   }
 }

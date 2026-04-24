@@ -5,14 +5,15 @@ import {
   getContents,
   deleteContent,
 } from "../controllers/content.controller";
+import { searchContent } from "../controllers/ai/search.controller";
 
 const router = Router();
 
-// All content routes require authentication
 router.use(authMiddleware);
 
-router.post("/", createContent);
-router.get("/", getContents);
-router.delete("/:contentId", deleteContent);
+router.post("/", createContent); // POST   /api/v1/content
+router.get("/", getContents); // GET    /api/v1/content
+router.delete("/:contentId", deleteContent); // DELETE /api/v1/content/:contentId
+router.get("/search", searchContent); // GET    /api/v1/content/search?q=
 
 export default router;
