@@ -37,10 +37,13 @@ class RedisClient {
   public getClient(): IORedis {
     if (this.client) return this.client;
 
-    console.log(`🔗 Connecting Redis client to: ${typeof connectionConfig === 'string' ? `Upstash URL : ${process.env.REDIS_URL}` : `${connectionConfig.host}:${connectionConfig.port}`}`);
-    this.client = typeof connectionConfig === 'string' 
-      ? new IORedis(connectionConfig) 
-      : new IORedis(connectionConfig);
+    console.log(
+      `🔗 Connecting Redis client to: ${typeof connectionConfig === "string" ? `Upstash URL : ${process.env.REDIS_URL}` : `${connectionConfig.host}:${connectionConfig.port}`}`,
+    );
+    this.client =
+      typeof connectionConfig === "string"
+        ? new IORedis(connectionConfig)
+        : new IORedis(connectionConfig);
     this.client.on("connect", () => console.log("✅ Redis client connected"));
     this.client.on("error", (err) =>
       console.error("❌ Redis client error:", err),
@@ -55,12 +58,15 @@ class RedisClient {
   public getSubscriber(): IORedis {
     if (this.subscriber) return this.subscriber;
 
-    console.log(`🔗 Connecting Redis subscriber to: ${typeof connectionConfig === 'string' ? 'Upstash URL' : `${connectionConfig.host}:${connectionConfig.port}`}`);
+    console.log(
+      `🔗 Connecting Redis subscriber to: ${typeof connectionConfig === "string" ? "Upstash URL" : `${connectionConfig.host}:${connectionConfig.port}`}`,
+    );
     // Fresh IORedis instance from the same config — NOT a clone of client.
     // They share config but are completely independent TCP connections.
-    this.subscriber = typeof connectionConfig === 'string' 
-      ? new IORedis(connectionConfig) 
-      : new IORedis(connectionConfig);
+    this.subscriber =
+      typeof connectionConfig === "string"
+        ? new IORedis(connectionConfig)
+        : new IORedis(connectionConfig);
     this.subscriber.on("connect", () =>
       console.log("✅ Redis subscriber connected"),
     );
@@ -87,7 +93,24 @@ class RedisClient {
 
 export const redis = RedisClient.getInstance();
 
+function createBullMQOptions(config: string | any) {
+  if (typeof config !== "string") return config;
+
+  const url = new URL(config);
+  const options: any = {
+    host: url.hostname,
+    port: parseInt(url.port, 10),
+    password: url.password || undefined,
+  };
+
+  if (url.protocol === "rediss:") {
+    options.tls = {};
+  }
+
+  return options;
+}
+
 // Plain config object for BullMQ — it creates its own internal ioredis
 // instance from this. Passing our IORedis instance directly causes a
 // type conflict because BullMQ bundles its own ioredis copy.
-export const bullMQRedisOptions = connectionConfig;
+export const bullMQRedisOptions = createBullMQOptions(connectionConfig);
